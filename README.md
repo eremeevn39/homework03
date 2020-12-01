@@ -9,5 +9,5 @@ scriptreplay 2.timefile 2.typescript
 1. **Уменьшить том под / до 8G**
 Первым делом установим пакет xfsdump для снятия копии с тома на файловой системе XFS
 
-    sudo yum install -y xfsdump
+```sudo yum install -y xfsdump```
     
