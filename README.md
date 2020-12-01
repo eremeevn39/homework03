@@ -4,5 +4,5 @@ scriptreplay 1.timefile 1.typescript
 1. **5 таск ДЗ:**
 scriptreplay 2.timefile 2.typescript
 
-http://github.com - automatic!
-[GitHub](http://github.com)
+I think you should use an
+`<addr>` element here instead.
