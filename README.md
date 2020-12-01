@@ -1,6 +1,6 @@
 # Homework03 :grinning:
 
-1. **1-4 таски ДЗ:**
+1. [**1-4 таски ДЗ:**](#1-1-4-%D1%82%D0%B0%D1%81%D0%BA%D0%B8-%D0%B4%D0%B7)
 scriptreplay 1.timefile 1.typescript
 1. **5 таск ДЗ:**
 scriptreplay 2.timefile 2.typescript
