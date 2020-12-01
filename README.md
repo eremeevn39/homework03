@@ -33,10 +33,15 @@ Cкопируем все данные с **/** раздела в **/mnt**:
 
 Переконфигурируем grub для того, чтобы при старте перейти в новый **/**
 
-Сымитируем текущий **root** -> сделаем в него [chroot](https://wiki.archlinux.org/index.php/Chroot_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)) и обновим **grub**:
+Сымитируем текущий **root** -> сделаем в него [chroot](https://wiki.archlinux.org/index.php/Chroot_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)) и обновим **grub** и обновим образ [initrd](https://ru.wikipedia.org/wiki/Initrd):
 
 `# for i in /proc/ /sys/ /dev/ /run/ /boot/; do mount --bind $i /mnt/$i; done`
 
 `# chroot /mnt/`
 
 `# grub2-mkconfig -o /boot/grub2/grub.cfg`
+
+`# cd /boot ; for i in `ls initramfs-*img`; do dracut -v $i `echo $i|sed "s/initramfs-//g; s/.img//g"` --force; done`
+
+Далее, для того, чтобы при загрузке был смонтирован нужный **root** нужно в файле */boot/grub2/grub.cfg* заменить > rd.lvm.lv=VolGroup00/LogVol00 на > rd.lvm.lv=vg_root/lv_root
+
