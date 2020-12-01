@@ -71,4 +71,109 @@ Cкопируем все данные с **/** раздела в **/mnt**:
 
 ```# cd /boot ; for i in `ls initramfs-*img`; do dracut -v $i `echo $i|sed "s/initramfs-//g; s/.img//g"` --force; done```
 
-2. **Выделяем том под /var в зеркало**
+2. **Выделяем том под __/var__ в зеркало**
+
+Создаем зеркало:
+
+`# pvcreate /dev/sdc /dev/sdd`
+
+`# vgcreate vg_var /dev/sdc /dev/sdd`
+
+`# lvcreate -L 950M -m1 -n lv_var vg_var`
+
+Создаем на нем ФС и перемещаем туда **/var**:
+
+`# mkfs.ext4 /dev/vg_var/lv_var`
+`# mount /dev/vg_var/lv_var /mnt`
+`# cp -aR /var/* /mnt/      # rsync -avHPSAX /var/ /mnt/`
+
+Монтируем новый **var** в каталог **/var**:
+
+`# umount /mnt`
+
+`# mount /dev/vg_var/lv_var /var`
+
+Правим **fstab** для автоматического монтирования **/var**:
+
+```# echo "`blkid | grep var: | awk '{print $2}'` /var ext4 defaults 0 0" >> /etc/fstab```
+
+Перезагружаемся и удаляем временную **Volume Group**:
+
+`# lvremove /dev/vg_root/lv_root`
+`# vgremove /dev/vg_root`
+`# pvremove /dev/sdb`
+
+3. Выделяем том под **/home**:
+
+Создаем логический раздел:
+
+`# lvcreate -n LogVol_Home -L 2G /dev/VolGroup00`
+
+Создаем ФС:
+
+`# mkfs.xfs /dev/VolGroup00/LogVol_Home`
+
+`# mount /dev/VolGroup00/LogVol_Home /mnt/`
+
+`# cp -aR /home/* /mnt/`
+
+`# rm -rf /home/*`
+
+`# umount /mnt`
+
+`# mount /dev/VolGroup00/LogVol_Home /home/`
+
+Правим **fstab** для автоматического монтирования **/home**
+
+```# echo "`blkid | grep Home | awk '{print $2}'` /home xfs defaults 0 0" >> /etc/fstab```
+
+3. Делаем том для снапшотов **/home**:
+
+Сгенерируем файлы в **/home/**:
+
+`# touch /home/file{1..20}`
+
+Делаем снапшот:
+
+`# lvcreate -L 100MB -s -n home_snap /dev/VolGroup00/LogVol_Home`
+
+Удаляем часть файлов:
+
+`# rm -f /home/file{11..20}`
+
+Восстанавливаемся со снапшота:
+
+`# umount /home`
+
+`# lvconvert --merge /dev/VolGroup00/home_snap`
+
+`# mount /home`
+
+5. Прописываем монтирование в **fstab** с разными опциями и разными файловыми системами (**ext4** и **xfs**)
+
+Создаем разделы **LVM**:
+
+`# pvcreate /dev/sdb`
+`# vgcreate hw03 /dev/sdb`
+`# lvcreate -l+50%FREE -n hw03-01 hw03`
+`# lvcreate -l+100%FREE -n hw03-02 hw03`
+
+Форматируем разделы в разные ФС:
+
+`# mkfs.ext4 /dev/hw03/hw03-01`
+`# mkfs.xfs /dev/hw03/hw03-02`
+
+Создаем каталоги и монтируемся в них:
+
+`# mkdir -p /mount/hw03-01 /mount/hw03-02`
+`# mount /dev/hw03/hw03-01 /mount/hw03-01`
+`# mount /dev/hw03/hw03-02 /mount/hw03-02`
+
+Добавляем параметры автомонтирования в **fstab**:
+
+```# echo "`blkid | grep hw03-hw03--01: | awk '{print $2}'` /mount/hw03-01 ext4 defaults 0 0" >> /etc/fstab```
+```# echo "`blkid | grep hw03-hw03--02: | awk '{print $2}'` /mount/hw03-02 xfs defaults 0 2" >> /etc/fstab```
+
+Проверяем содержимое **fstab** на всякий случай:
+
+`# cat /etc/fstab`
