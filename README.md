@@ -33,8 +33,10 @@ Cкопируем все данные с / раздела в /mnt:
 
 Переконфигурируем grub для того, чтобы при старте перейти в новый /
 
-http://github.com - automatic!
-[GitHub](http://github.com)
+Сымитируем текущий **root** -> сделаем в него [chroot](https://wiki.archlinux.org/index.php/Chroot_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)) и обновим **grub**:
 
+`# for i in /proc/ /sys/ /dev/ /run/ /boot/; do mount --bind $i /mnt/$i; done`
 
-Сымитируем текущий **root** -> сделаем в него [chroot](https://wiki.archlinux.org/index.php/Chroot_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9) и обновим **grub**:
+`# chroot /mnt/`
+
+`# grub2-mkconfig -o /boot/grub2/grub.cfg`
