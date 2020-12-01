@@ -1,8 +1,5 @@
-# homework03
+# Homework03
 1. **1-4 таски ДЗ:**
 scriptreplay 1.timefile 1.typescript
 1. **5 таск ДЗ:**
 scriptreplay 2.timefile 2.typescript
-
-I think you should use an
-`<addr>` element here instead.
