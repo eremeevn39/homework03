@@ -8,6 +8,7 @@ scriptreplay 2.timefile 2.typescript
 ## №1 1-4 таски ДЗ:
 
 1. **Уменьшить том под / до 8G**
+
 Первым делом установим пакет xfsdump для снятия копии с тома на файловой системе XFS
 
 `# yum install -y xfsdump`
