@@ -26,3 +26,11 @@ scriptreplay 2.timefile 2.typescript
 `# mkfs.xfs /dev/vg_root/lv_root`
 
 `# mount /dev/vg_root/lv_root /mnt`
+
+Cкопируем все данные с / раздела в /mnt:
+
+`# xfsdump -J - /dev/VolGroup00/LogVol00 | xfsrestore -J - /mnt`
+
+Переконфигурируем grub для того, чтобы при старте перейти в новый /
+
+Сымитируем текущий **root** -> сделаем в него [chroot](https://wiki.archlinux.org/index.php/Chroot_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9) и обновим **grub**:
