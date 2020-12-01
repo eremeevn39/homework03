@@ -9,11 +9,11 @@ scriptreplay 2.timefile 2.typescript
 
 1. **Уменьшить том под / до 8G**
 
-Первым делом установим пакет xfsdump для снятия копии с тома на файловой системе XFS
+Первым делом установим пакет [xfsdump](https://linux.die.net/man/8/xfsdump) для снятия копии с тома на файловой системе **XFS**
 
 `# yum install -y xfsdump`
     
-Подготовим временный том для / раздела:
+Подготовим временный том для **/** раздела:
    
 `# pvcreate /dev/sdb`
 
@@ -27,11 +27,11 @@ scriptreplay 2.timefile 2.typescript
 
 `# mount /dev/vg_root/lv_root /mnt`
 
-Cкопируем все данные с / раздела в /mnt:
+Cкопируем все данные с **/** раздела в **/mnt**:
 
 `# xfsdump -J - /dev/VolGroup00/LogVol00 | xfsrestore -J - /mnt`
 
-Переконфигурируем grub для того, чтобы при старте перейти в новый /
+Переконфигурируем grub для того, чтобы при старте перейти в новый **/**
 
 Сымитируем текущий **root** -> сделаем в него [chroot](https://wiki.archlinux.org/index.php/Chroot_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)) и обновим **grub**:
 
