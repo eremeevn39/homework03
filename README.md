@@ -41,7 +41,7 @@ Cкопируем все данные с **/** раздела в **/mnt**:
 
 `# grub2-mkconfig -o /boot/grub2/grub.cfg`
 
-`# cd /boot ; for i in `ls initramfs-*img`; do dracut -v $i `echo $i|sed "s/initramfs-//g; s/.img//g"` --force; done`
+```# cd /boot ; for i in `ls initramfs-*img`; do dracut -v $i `echo $i|sed "s/initramfs-//g; s/.img//g"` --force; done```
 
 Далее, для того, чтобы при загрузке был смонтирован нужный **root** нужно в файле */boot/grub2/grub.cfg* заменить
 
