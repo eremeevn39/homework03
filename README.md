@@ -7,7 +7,7 @@ scriptreplay 2.timefile 2.typescript
 
 ## №1 1-4 таски ДЗ:
 
-1. **Уменьшить том под / до 8G**
+1. **Уменьшаем том под / до 8G**
 
 Первым делом установим пакет [xfsdump](https://linux.die.net/man/8/xfsdump) для снятия копии с тома на файловой системе **XFS**
 
@@ -71,4 +71,4 @@ Cкопируем все данные с **/** раздела в **/mnt**:
 
 ```# cd /boot ; for i in `ls initramfs-*img`; do dracut -v $i `echo $i|sed "s/initramfs-//g; s/.img//g"` --force; done```
 
-1. Выделяем том под /var в зеркало
+2. **Выделяем том под /var в зеркало**
