@@ -43,5 +43,11 @@ Cкопируем все данные с **/** раздела в **/mnt**:
 
 `# cd /boot ; for i in `ls initramfs-*img`; do dracut -v $i `echo $i|sed "s/initramfs-//g; s/.img//g"` --force; done`
 
-Далее, для того, чтобы при загрузке был смонтирован нужный **root** нужно в файле */boot/grub2/grub.cfg* заменить > rd.lvm.lv=VolGroup00/LogVol00 на > rd.lvm.lv=vg_root/lv_root
+Далее, для того, чтобы при загрузке был смонтирован нужный **root** нужно в файле */boot/grub2/grub.cfg* заменить
+
+> rd.lvm.lv=VolGroup00/LogVol00
+
+на
+
+> rd.lvm.lv=vg_root/lv_root
 
